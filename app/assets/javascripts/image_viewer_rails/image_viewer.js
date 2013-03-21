@@ -170,7 +170,7 @@
     }
     function reload(){
       image_array                 = settings["images"];
-      settings["zoomLevel"]       = 75;
+      settings["zoomLevel"]       = 100;
       settings["images"]          = null;
       settings["mainDiv"]         = null;
       settings["imageOverlay"]    = null;
@@ -234,7 +234,7 @@
         '<img id="' + settings["mainDivId"] + '-full-image-' + index + '" ' +
         'src="' + image + '" ' +
         'alt="Full Image" ' +
-        'style="width:100%;max-width:none;" ' +
+        'style="width:' + settings["zoomLevel"] + '%;max-width:none;" ' +
         'angle="0"/>' +
         '</div>');
 
@@ -332,7 +332,6 @@
     function zoomAbsolute(zoomLevel){
       previous_zoomLevel = settings["zoomLevel"];
       settings["zoomLevel"] = zoomLevel;
-
       object_to_zoom = $('#' + settings["mainDivId"] + '-full-image-' + settings["imageIndex"]);
 
       object_to_zoom.css('width', settings["zoomLevel"] + '%');
