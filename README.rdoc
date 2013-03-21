@@ -1,0 +1,5 @@
+= ImageViewerRails
+
+This project rocks and uses MIT-LICENSE.
+
+A rails engine to serve imageviewer js files easily and ubiquitiously
