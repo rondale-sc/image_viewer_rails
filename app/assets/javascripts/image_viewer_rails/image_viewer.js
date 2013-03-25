@@ -3,7 +3,7 @@
     var settings = {
       'height': '550',
       'nav_links':true,
-      'zoomLevel': 75,
+      'zoomLevel': 62,
       'increment' : 50,
       'images' : null,
       'mainDivId' : this,
@@ -123,7 +123,7 @@
     }
 
     function setupLegend() {
-      var modal_container = "<div id='key-bindings'></div>";
+      var modal_container = "<div id='key-bindings' style='display:none'></div>";
       var mask_div = "<div id='mask'></div>";
 
       var key_binding_div = "<div class='window' id='dialog'>" +
@@ -383,7 +383,7 @@
     }
 
     if ( typeof method === 'object' || ! method )
-      return init.apply( this, arguments);
+      return init.apply(this, arguments);
     else
       $.error( 'Method ' +  method + ' does not exist on jQuery.imageViewer' );
 
