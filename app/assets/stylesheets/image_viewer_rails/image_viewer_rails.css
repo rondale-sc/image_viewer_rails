@@ -1,0 +1,28 @@
+/*-----------------------------------------------------------------------------------------ImageViewer */
+.image-viewer-container {
+  border: 1px solid black;
+  /* min-width: 950px; */
+  padding: 2px;
+  margin-bottom: 10px;
+  position:relative;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 6%;
+  left: 90%;
+  padding: 2px 1% 2px 1%;
+  background:transparent none repeat scroll 0 0;
+  font-weight: 500;
+  z-index:10;
+}
+
+.image-viewer {
+  height: 90%;
+  width: 97%;
+  overflow: auto;
+  margin-right:auto;
+  margin-left:auto;
+  position:relative;
+}
+
