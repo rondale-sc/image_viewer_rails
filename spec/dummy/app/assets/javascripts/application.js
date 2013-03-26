@@ -12,4 +12,5 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require image_viewer_rails
 //= require_tree .
