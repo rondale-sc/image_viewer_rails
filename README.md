@@ -15,7 +15,7 @@ gem "image_viewer_rails", "~> 0.0.1"
 Then in your `app/assets/javascripts/application.js` (manifest file):
 
 ```
-//= require 'image_viewer_rails/application'
+//= require 'image_viewer_rails'
 ```
 
 Doing so will tell rails to laod the following files
