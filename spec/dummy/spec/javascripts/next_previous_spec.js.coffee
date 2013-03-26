@@ -3,7 +3,7 @@ describe "Next / Previous Page", ->
 
   beforeEach ->
     loadFixtures 'image_viewer_index'
-    $('#ImageViewer').imageViewer(["http://localhost:3000/assets/test_image_1.jpeg", "http://localhost:3000/assets/test_image_2.jpeg"]);
+    $('#ImageViewer').imageViewer(["/assets/test_image_1.jpeg", "/assets/test_image_2.jpeg"])
 
   it "cycles to the next page when prompted", ->
     current_page = viewer.settings("imageIndex")

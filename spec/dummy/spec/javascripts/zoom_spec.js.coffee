@@ -3,7 +3,7 @@ describe "Zoom in/out", ->
 
   beforeEach -> 
     loadFixtures 'image_viewer_index'
-    $('#ImageViewer').imageViewer(["http://localhost:3000/assets/test_image_1.jpeg"]);
+    $('#ImageViewer').imageViewer(["/assets/test_image_1.jpeg"]);
 
   it "zooms in to the current image given a positive integer", ->
     zoom_increment              = 50
