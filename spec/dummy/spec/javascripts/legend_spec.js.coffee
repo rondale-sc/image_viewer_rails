@@ -13,14 +13,6 @@ describe "Legend", ->
     expect($('#dialog').is(':visible')).toBe(false)
     viewer.displayLegend()
     expect($('#dialog').is(':visible')).toBe(true)
-    expect(Date.now() - start).toBeGreaterThan(5)
-
-  it "should display instantly when passed true", ->
-    start = Date.now();
-    expect($('#dialog').is(':visible')).toBe(false)
-    viewer.displayLegend(true)
-    expect($('#dialog').is(':visible')).toBe(true)
-    expect(Date.now() - start).toBeLessThan(10)
 
   it "not be visible after hideLegend() is called", ->
     expect($('#dialog').is(':visible')).toBe(false)
