@@ -1,3 +1,3 @@
 //= require jquery
-//= require image_viewer_rails/application
+//= require image_viewer_rails
 //= require_tree ./
