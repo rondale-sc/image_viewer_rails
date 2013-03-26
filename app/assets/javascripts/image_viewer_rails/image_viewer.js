@@ -74,10 +74,8 @@
 
     $.fn.imageViewer.rotate_all = function(increment){
       $.each(settings["images"], function(index, image) {
-        showPage(index);
         rotate(increment, index);
       });
-      showPage(0);
     };
 
     $.fn.imageViewer.rotate = function(increment){
