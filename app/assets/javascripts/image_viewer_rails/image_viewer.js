@@ -3,7 +3,7 @@
     var settings = {
       'height': '550',
       'nav_links':true,
-      'zoomLevel': 62,
+      'zoomLevel': 100,
       'increment' : 50,
       'images' : null,
       'mainDivId' : this,
