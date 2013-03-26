@@ -12,10 +12,16 @@ Since this mostly just serves up commonly used js files for internal use all you
 gem "image_viewer_rails", "~> 0.0.1"
 ```
 
-Then in your `app/assets/javascripts/application.js` (manifest file):
+In your `app/assets/javascripts/application.js` (manifest file) add the following:
 
 ```
-//= require 'image_viewer_rails'
+//= require image_viewer_rails
+```
+
+In your `app/assets/stylesheets/application.css.scss` (manifest file) add the following:
+
+```
+//= require image_viewer_rails
 ```
 
 Doing so will tell rails to laod the following files

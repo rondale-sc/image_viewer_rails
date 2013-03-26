@@ -1,4 +1,3 @@
-/*-----------------------------------------------------------------------------------------ImageViewer */
 .image-viewer-container {
   border: 1px solid black;
   /* min-width: 950px; */
@@ -24,5 +23,38 @@
   margin-right:auto;
   margin-left:auto;
   position:relative;
+}
+#mask {
+  position:absolute;
+  z-index:9000;
+  background-color:#000;
+  display:none;
+}
+#key-bindings .window {
+  position:absolute;
+  width:440px;
+  height:200px;
+  display:none;
+  z-index:9999;
+  padding:20px;
+}
+
+#key-bindings #dialog {
+  background-color:#fff;
+  background-repeat:no-repeat;
+  background-position:right bottom;
+  font-weight:200;
+  padding-left:30px;
+  border:1px solid #777;
+  width:400px;
+  height:400px;
+}
+
+#key-bindings #dialog a {
+  font-size:12px;
+}
+#key-bindings #dialog h5 {
+  text-align:center;
+  font-size:24px;
 }
 
