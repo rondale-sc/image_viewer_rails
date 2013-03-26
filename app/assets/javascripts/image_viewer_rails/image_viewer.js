@@ -123,8 +123,8 @@
     }
 
     function setupLegend() {
-      var modal_container = "<div id='key-bindings' style='display:none'></div>";
-      var mask_div = "<div id='mask'></div>";
+      var modal_container = "<div id='key-bindings'></div>";
+      var mask_div = "<div id='mask' style='display:none;'></div>";
 
       var key_binding_div = "<div class='window' id='dialog'>" +
       "<a href='#' style='float:right;' class='close'>(X) Close</a>" +
