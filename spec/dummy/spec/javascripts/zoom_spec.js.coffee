@@ -1,4 +1,5 @@
 describe "Zoom in/out", -> 
+  images = ['/assets/test_image_1.jpeg']
   viewer = $('#ImageViewer').imageViewer
 
   percentageIncrease = (initial_value, new_value, scale_factor)->
@@ -8,7 +9,18 @@ describe "Zoom in/out", ->
 
   beforeEach -> 
     loadFixtures 'image_viewer_index'
-    $('#ImageViewer').imageViewer(["/assets/test_image_1.jpeg"]);
+    $('#ImageViewer').imageViewer(images)
+
+  it 'defaults to zooming by width', ->
+    expect(viewer.settings('zoomDirection')).toBe('width')
+
+  it 'uses zoomDirection and zoomLevel to set image element style attributes', ->
+    settings = {'zoomDirection': 'blah', 'zoomLevel': 73}
+    $('#ImageViewer').imageViewer(images, settings)
+    style = $('img').attr('style')
+    expect(viewer.settings('zoomDirection')).toBe(settings['zoomDirection'])
+    expect(viewer.settings('zoomLevel')).toBe(settings['zoomLevel'])
+    expect(style).toContain(settings['zoomDirection'] + ':' + settings['zoomLevel'])
 
   it "zooms in to the current image given a positive integer", ->
     zoom_increment              = 50

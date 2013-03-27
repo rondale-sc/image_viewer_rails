@@ -3,6 +3,7 @@
     var settings = {
       'height': '550',
       'nav_links':true,
+      'zoomDirection': 'width',
       'zoomLevel': 100,
       'increment' : 50,
       'images' : null,
@@ -243,7 +244,7 @@
         '<img id="' + settings["mainDivId"] + '-full-image-' + index + '" ' +
         'src="' + image + '" ' +
         'alt="Full Image" ' +
-        'style="width:' + settings["zoomLevel"] + '%;max-width:none;" ' +
+        'style="' + settings["zoomDirection"] + ':' + settings["zoomLevel"] + '%;max-width:none;" ' +
         'angle="0"/>' +
         '</div>');
 
