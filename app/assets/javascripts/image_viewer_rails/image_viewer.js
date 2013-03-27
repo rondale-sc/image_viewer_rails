@@ -129,7 +129,7 @@
       var mask_div = "<div id='mask' style='display:none;'></div>";
 
       var key_binding_div = "<div class='window' id='dialog'>" +
-      "<a href='#' style='float:right;' class='close'>(X) Close</a>" +
+      "<a href='#' style='float:right;' class='close'>" + addGlyphIcon('icon-remove') + "</a>" +
           "<table>" +
           "  <thead>" +
           "    <tr>" +
@@ -184,32 +184,39 @@
     }
 
     function createNavTable() {
-      table = '<table id="navlinks-for-' + settings['mainDivId'] + '" class="table" style="margin:0px;">' +
+      var id = '#navlinks-for-' + settings['mainDivId']
+
+      table = '<table id="' + id + '" class="table center nav_links">' +
       '<tr>' +
-      '<td>' + createNavLink('scrollPage(-1)', 'previous') + '</td>' +
-      '<td>' + createNavLink('scrollPage(1)', 'next') + '</td>' +
-      '<td>' + createNavLink('scroll(-1 * ' + settings["increment"] + ",0)", 'left') + '</td>' +
-      '<td>' + createNavLink('scroll(' + settings["increment"] + ",0)", 'right') + '</td>' +
-      '<td>' + createNavLink('scroll(0, -1 * ' + settings["increment"] + ")", 'up') + '</td>' +
-      '<td>' + createNavLink('scroll(0,' + settings["increment"] + ")", 'down') + '</td>' +
-      '<td>' + createNavLink('zoom(' + settings["increment"] + ")", 'zoom in') + '</td>' +
-      '<td>' + createNavLink('zoom(-1 * ' + settings["increment"] + ")", 'zoom out') + '</td>' +
-      '<td>' + createNavLink('rotate(90)', 'rotate') + '</td>' +
-      '<td>' + createNavLink('rotate_all(90)', 'rotate all') + '</td>' +
-      '<td>' + createNavLink('print()', 'print') + '</td>' +
-      '<td>' + createNavLink('displayLegend()', 'legend') + '</td>' +
+      '<td>' + createNavLink('scrollPage(-1)', ' previous', 'icon-backward') + '</td>' +
+      '<td>' + createNavLink('scrollPage(1)', 'next', 'icon-forward') + '</td>' +
+      '<td>' + createNavLink('scroll(-1 * ' + settings["increment"] + ",0)", ' left', 'icon-arrow-left') + '</td>' +
+      '<td>' + createNavLink('scroll(' + settings["increment"] + ",0)", 'right', 'icon-arrow-right') + '</td>' +
+      '<td>' + createNavLink('scroll(0, -1 * ' + settings["increment"] + ")", 'up', 'icon-arrow-up') + '</td>' +
+      '<td>' + createNavLink('scroll(0,' + settings["increment"] + ")", 'down', 'icon-arrow-down') + '</td>' +
+      '<td>' + createNavLink('zoom(' + settings["increment"] + ")", ' zoom in', 'icon-plus') + '</td>' +
+      '<td>' + createNavLink('zoom(-1 * ' + settings["increment"] + ")", ' zoom out', 'icon-minus') + '</td>' +
+      '<td>' + createNavLink('rotate(90)', 'rotate', 'icon-repeat') + '</td>' +
+      '<td>' + createNavLink('rotate_all(90)', 'rotate all', 'icon-refresh') + '</td>' +
+      '<td>' + createNavLink('print()', ' print', 'icon-print') + '</td>' +
+      '<td>' + createNavLink('displayLegend()', 'legend', 'icon-info-sign') + '</td>' +
       '</tr>' +
       '</table>';
 
       settings["mainDiv"].prepend(table);
     }
-    function createNavLink( call, name ) {
+
+    function addGlyphIcon(glyph) {
+      return '<i class="' + glyph + '"></i>'
+    }
+
+    function createNavLink( call, name, glyph) {
       var div_id = '#' + settings["mainDivId"];
 
-      return '<a href="#" onclick="' +
+      return '<a href="#" style="display:block;text-align:center" onclick="' +
       '$(\'' + div_id + '\')' +
       '.imageViewer.' +  call + ';return false;">' +
-      name +
+      addGlyphIcon(glyph) +
       '</a>';
     }
 
