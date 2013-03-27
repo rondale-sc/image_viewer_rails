@@ -188,18 +188,18 @@
 
       table = '<table id="' + id + '" class="table center nav_links">' +
       '<tr>' +
-      '<td>' + createNavLink('scrollPage(-1)', ' previous', 'icon-backward') + '</td>' +
-      '<td>' + createNavLink('scrollPage(1)', 'next', 'icon-forward') + '</td>' +
-      '<td>' + createNavLink('scroll(-1 * ' + settings["increment"] + ",0)", ' left', 'icon-arrow-left') + '</td>' +
-      '<td>' + createNavLink('scroll(' + settings["increment"] + ",0)", 'right', 'icon-arrow-right') + '</td>' +
-      '<td>' + createNavLink('scroll(0, -1 * ' + settings["increment"] + ")", 'up', 'icon-arrow-up') + '</td>' +
-      '<td>' + createNavLink('scroll(0,' + settings["increment"] + ")", 'down', 'icon-arrow-down') + '</td>' +
-      '<td>' + createNavLink('zoom(' + settings["increment"] + ")", ' zoom in', 'icon-plus') + '</td>' +
-      '<td>' + createNavLink('zoom(-1 * ' + settings["increment"] + ")", ' zoom out', 'icon-minus') + '</td>' +
-      '<td>' + createNavLink('rotate(90)', 'rotate', 'icon-repeat') + '</td>' +
-      '<td>' + createNavLink('rotate_all(90)', 'rotate all', 'icon-refresh') + '</td>' +
-      '<td>' + createNavLink('print()', ' print', 'icon-print') + '</td>' +
-      '<td>' + createNavLink('displayLegend()', 'legend', 'icon-info-sign') + '</td>' +
+      '<td>' + createNavLink('scrollPage(-1)', 'Previous Page', 'icon-backward') + '</td>' +
+      '<td>' + createNavLink('scrollPage(1)', 'Next Page', 'icon-forward') + '</td>' +
+      '<td>' + createNavLink('scroll(-1 * ' + settings["increment"] + ",0)", 'Left', 'icon-arrow-left') + '</td>' +
+      '<td>' + createNavLink('scroll(' + settings["increment"] + ",0)", 'Right', 'icon-arrow-right') + '</td>' +
+      '<td>' + createNavLink('scroll(0, -1 * ' + settings["increment"] + ")", 'Up', 'icon-arrow-up') + '</td>' +
+      '<td>' + createNavLink('scroll(0,' + settings["increment"] + ")", 'Down', 'icon-arrow-down') + '</td>' +
+      '<td>' + createNavLink('zoom(' + settings["increment"] + ")", 'Zoom In', 'icon-plus') + '</td>' +
+      '<td>' + createNavLink('zoom(-1 * ' + settings["increment"] + ")", 'Zoom Out', 'icon-minus') + '</td>' +
+      '<td>' + createNavLink('rotate(90)', 'Rotate Page', 'icon-repeat') + '</td>' +
+      '<td>' + createNavLink('rotate_all(90)', 'Rotate All Pages', 'icon-refresh') + '</td>' +
+      '<td>' + createNavLink('print()', 'Print', 'icon-print') + '</td>' +
+      '<td>' + createNavLink('displayLegend()', 'Display Legend', 'icon-info-sign') + '</td>' +
       '</tr>' +
       '</table>';
 
@@ -213,7 +213,7 @@
     function createNavLink( call, name, glyph) {
       var div_id = '#' + settings["mainDivId"];
 
-      return '<a href="#" style="display:block;text-align:center" onclick="' +
+      return '<a href="#" title="' + name + '" style="display:block;text-align:center" onclick="' +
       '$(\'' + div_id + '\')' +
       '.imageViewer.' +  call + ';return false;">' +
       addGlyphIcon(glyph) +
