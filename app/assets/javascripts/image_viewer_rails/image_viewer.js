@@ -156,6 +156,8 @@
           "    <tr><td>'i'</td><td>Zoom In</td></tr>" +
           "    <tr><td>'k', 'o'</td><td>Zoom Out</td></tr>" +
           "    <tr><td>'l', 'n'</td><td>Next</td></tr>" +
+          "    <tr><td>'ctrl+l', 'h'</td><td>Fit Height</td></tr>" +
+          "    <tr><td>'w'</td><td>Fit Width</td></tr>" +
           "    <tr><td>'j', 'p'</td><td>Previous</td></tr>" +
           "    <tr><td>'e', 'up arrow'</td><td>Scroll Up</td></tr>" +
           "    <tr><td>'d', 'down arrow'</td><td>Scroll Down</td></tr>" +
@@ -319,6 +321,10 @@
       addKeyToKeyMaster(['r','shift+r'], 'imageviewer', function(){ self.rotate(90); return false; });
       // rotate all
       addKeyToKeyMaster(['t','shift+t'], 'imageviewer', function(){ self.rotate_all(90); return false; });
+      // zoom to fit width
+      addKeyToKeyMaster('w', 'imageviewer', function(){ self.zoom('100%','width'); return false; });
+      // zoom to fit height
+      addKeyToKeyMaster(['h','ctrl+l','ctrl+shift+l'], 'imageviewer', function(){ self.zoom('100%','height'); return false; });
     }
 
     function setupHeight(){
