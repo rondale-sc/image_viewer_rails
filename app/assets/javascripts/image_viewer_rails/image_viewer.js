@@ -68,9 +68,22 @@
       settings["currentImageDiv"].scrollLeft(settings["currentImageDiv"].scrollLeft() + left);
     };
 
-    $.fn.imageViewer.zoom = function(increment){
-      if(increment < 0 && settings["zoomLevel"] <= settings["increment"]) increment = 0;
-      zoomAbsolute(settings["zoomLevel"] + increment);
+    $.fn.imageViewer.zoom = function(increment,zoomDirection){
+      var newZoomLevel = settings['zoomLevel']
+
+      if (typeof increment === 'string' && increment.match(/%$/))
+        newZoomLevel  = parseInt(increment)
+      else
+        newZoomLevel  += increment
+
+      //prevent zooming out past reasonable level
+      if (newZoomLevel < settings['increment'])
+        newZoomLevel = settings['increment']
+
+      if (zoomDirection)
+        settings['zoomDirection'] = zoomDirection
+
+      zoomAbsolute(newZoomLevel);
     };
 
     $.fn.imageViewer.rotate_all = function(increment){
@@ -344,7 +357,10 @@
       settings["zoomLevel"] = zoomLevel;
       object_to_zoom = $('#' + settings["mainDivId"] + '-full-image-' + settings["imageIndex"]);
 
-      object_to_zoom.css('width', settings["zoomLevel"] + '%');
+      object_to_zoom.css('width', '')
+      object_to_zoom.css('height','')
+
+      object_to_zoom.css(settings['zoomDirection'], settings["zoomLevel"] + '%');
       self.scroll(0,0);
     }
 

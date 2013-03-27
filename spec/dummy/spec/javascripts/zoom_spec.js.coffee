@@ -43,11 +43,20 @@ describe "Zoom in/out", ->
     expect(viewer.settings("zoomLevel")).toEqual(initial_zoom_level + zoom_increment)
 
   it "prevents zooming past reasonable levels", -> 
-    zoom_increment     = 10
     initial_zoom_level = viewer.settings("zoomLevel")
     viewer.zoom(-1 * initial_zoom_level) # set zoomLevel to 0 
-    viewer.zoom(-1 * zoom_increment)
+    expect(viewer.settings("zoomLevel")).toEqual(viewer.settings('increment'))
 
-    # Don't continue to reduce size after you reach 0
-    expect(viewer.settings("zoomLevel")).toEqual(0) 
+  it "accepts zoom direction as second parameter", ->
+    viewer.zoom(0,'height')
+    console.log $('img').attr('style')
+    expect($('img').attr('style')).toContain('height: 100%')
+
+  it "allows zooming to specific percentage", ->
+    viewer.zoom('150%')
+    expect($('img').attr('style')).toContain('width: 150%')
+
+  it "allows zooming to specific percentage by height", ->
+    viewer.zoom('172%','height')
+    expect($('img').attr('style')).toContain('height: 172%')
 
