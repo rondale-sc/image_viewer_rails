@@ -5,15 +5,6 @@
   margin-bottom: 10px;
   position:relative;
 }
-.image-overlay {
-  position: absolute;
-  top: 6%;
-  left: 90%;
-  padding: 2px 1% 2px 1%;
-  background:transparent none repeat scroll 0 0;
-  font-weight: 500;
-  z-index:10;
-}
 
 .image-viewer {
   height: 90%;
@@ -28,6 +19,14 @@
   margin-right:auto;
   width:60%;
 }
+
+.image-viewer-nav-info{
+  border-left:2px solid black;
+  border-right:2px solid black;
+  text-align:center;
+  width: 15%;
+}
+
 #mask {
   position:absolute;
   z-index:9000;

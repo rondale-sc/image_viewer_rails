@@ -9,7 +9,6 @@
       'images' : null,
       'mainDivId' : this,
       'mainDiv' : null,
-      'imageOverlay': null,
       'imageViewerImg': null,
       'imageIndex': null,
       'currentImageDiv': null,
@@ -191,7 +190,6 @@
       settings["zoomLevel"]       = 100;
       settings["images"]          = null;
       settings["mainDiv"]         = null;
-      settings["imageOverlay"]    = null;
       settings["imageViewerImg"]  = null;
       settings["imageIndex"]      = null;
       settings["currentImageDiv"] = null;
@@ -210,6 +208,7 @@
       '<td>' + createNavLink('scroll(' + settings["increment"] + ",0)", 'Right', 'icon-arrow-right') + '</td>' +
       '<td>' + createNavLink('scroll(0, -1 * ' + settings["increment"] + ")", 'Up', 'icon-arrow-up') + '</td>' +
       '<td>' + createNavLink('scroll(0,' + settings["increment"] + ")", 'Down', 'icon-arrow-down') + '</td>' +
+      '<td id="' +settings["mainDivId"] + '-nav-info' + '" class="image-viewer-nav-info"></td>' +
       '<td>' + createNavLink('zoom(' + settings["increment"] + ")", 'Zoom In', 'icon-plus') + '</td>' +
       '<td>' + createNavLink('zoom(-1 * ' + settings["increment"] + ")", 'Zoom Out', 'icon-minus') + '</td>' +
       '<td>' + createNavLink('rotate(90)', 'Rotate Page', 'icon-repeat') + '</td>' +
@@ -241,8 +240,6 @@
       settings["mainDiv"].empty();
       settings["mainDiv"].addClass('image-viewer-container');
       settings["mainDiv"].css("width", settings["width"]);
-      settings["mainDiv"].append('<div id="' + settings["mainDivId"] + '-image-overlay" class="image-overlay"></div>');
-      settings["imageOverlay"] = $('#' + settings["mainDivId"] + '-image-overlay');
     }
 
     function  setupImages(images){
@@ -381,15 +378,20 @@
     }
 
     function updateOverlay(commandMode){
-      var s = (settings["imageIndex"] + 1) + ' / ' + settings["images"].length;
+      overlay = $('#' + settings["mainDivId"] + '-nav-info');
+
+      if (settings['images'].length === 0)
+        return;
+
+      var s = (settings["imageIndex"] + 1) + ' of ' + settings["images"].length;
 
       if(commandMode === undefined)
-        commandMode = settings["imageOverlay"].html().search(/CM/) !== -1;
+        commandMode = overlay.html().search(/CM/) !== -1;
 
       if(commandMode === true)
         s += ' CM';
 
-      settings["imageOverlay"].html(s);
+      overlay.html(s);
     }
 
     function rotate(increment, imageIndex){
