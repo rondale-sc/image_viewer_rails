@@ -34,11 +34,11 @@ Doing so will tell rails to laod the following files
 
 ## Contributing
 
-Thanks for your interest in contributing to image_viewer_rails.  ImageViewerRails is tested using jasmine and jasminerice.  Since it's a rails engine there are some interesting testing patterns that we must use to get everything working as we expect.  Our tests are located in `spec/dummy/spec/javascripts` directory.  They've been loosely separated by their function.  
+Thanks for your interest in contributing to image_viewer_rails.  ImageViewerRails is tested using jasmine and jasminerice.  Since it's a rails engine there are some interesting testing patterns that we must use to get everything working as we expect.  We have a dummy app that lives inside the `spec` directory.  This enables us to run our tests in the context of an actual rails application.  To that end, our tests are located in `spec/dummy/spec/javascripts` directory.  They've been loosely separated by their function so jumping in shouldn't be too hard.
 
 ### Testing 
 
-[jasminerice](https://github.com/bradphelan/jasminerice) is also a rails engine that mounts to `/jasmine`.  To fire up the test suite run `rails s` inside the `spec/dummy` directory.
+[jasminerice](https://github.com/bradphelan/jasminerice) is also a rails engine that mounts to our dummy app at `/jasmine`.  To fire up the test suite run `rails s` inside the `spec/dummy` directory and head over to `http://localhost:3000/jasmine`.
 
 [guard-jasmine](https://github.com/netzpirat/guard-jasmine) allows us to leverage phantom.js (headless browser) and create a better environment.  
 
