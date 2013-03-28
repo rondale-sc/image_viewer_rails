@@ -14,8 +14,8 @@
       'currentImageDiv': null,
       'keyBindings' : {},
       'suppressedKeys' : [],
-      'calculate_height_with_header' : true,
-      'calculate_height_with_footer' : false
+      'calculateHeightWithHeader' : true,
+      'calculateHeightWithFooter' : false
     };
     var self = $.fn.imageViewer;
 
@@ -326,13 +326,13 @@
 
       var footer_height, menu_offset;
 
-      if (settings['calculate_height_with_header']) {
+      if (settings['calculateHeightWithHeader']) {
         menu_offset = settings["mainDiv"].offset().top;
       } else {
         menu_offset = 0;
       }
 
-      if(footer && settings['calculate_height_with_footer']){
+      if(footer && settings['calculateHeightWithFooter']){
         footer_height = footer.height() + 7;
       } else {
         footer_height = 0;
