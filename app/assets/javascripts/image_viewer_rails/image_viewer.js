@@ -1,7 +1,6 @@
 (function($) {
   $.fn.imageViewer = function(method) {
     var settings = {
-      'height': '550',
       'navLinks':true,
       'zoomDirection': 'width',
       'zoomLevel': 100,
