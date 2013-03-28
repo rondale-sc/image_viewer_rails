@@ -2,7 +2,7 @@
   $.fn.imageViewer = function(method) {
     var settings = {
       'height': '550',
-      'nav_links':true,
+      'navLinks':true,
       'zoomDirection': 'width',
       'zoomLevel': 100,
       'increment' : 50,
@@ -13,7 +13,7 @@
       'imageIndex': null,
       'currentImageDiv': null,
       'keyBindings' : {},
-      'suppressed_keys' : [],
+      'suppressedKeys' : [],
       'calculate_height_with_header' : true,
       'calculate_height_with_footer' : false
     };
@@ -45,9 +45,9 @@
       var maskHeight = $(document).height();
       var maskWidth = $(window).width();
 
-      $('#mask').css({'width':maskWidth,'height':maskHeight});
-      $('#mask').fadeIn(600);
-      $('#mask').fadeTo("slow",0.8);
+      $('#image-viewer-mask').css({'width':maskWidth,'height':maskHeight});
+      $('#image-viewer-mask').fadeIn(600);
+      $('#image-viewer-mask').fadeTo("slow",0.8);
 
       var winH = $(window).height();
       var winW = $(window).width();
@@ -59,7 +59,7 @@
     };
 
     $.fn.imageViewer.hideLegend =  function() {
-      $('#mask, #dialog').hide();
+      $('#image-viewer-mask, #dialog').hide();
     };
 
     $.fn.imageViewer.scroll =  function(left, top){
@@ -126,7 +126,7 @@
       setupContainers();
       setupHeight();
       setupKeyBindings();
-      if (settings['nav_links'] === true) {createNavTable();}
+      if (settings['navLinks'] === true) {createNavTable();}
       setupImages(image_path_array);
       setupLegend();
       setupMaskListener();
@@ -134,11 +134,11 @@
     }
 
     function setupLegend() {
-      var modal_container = "<div id='key-bindings'></div>";
-      var mask_div = "<div id='mask' style='display:none;'></div>";
+      var modal_container = "<div id='image-viewer-key-bindings'></div>";
+      var mask_div = "<div id='image-viewer-mask'></div>";
 
       var key_binding_div = "<div class='window' id='dialog'>" +
-      "<a href='#' style='float:right;' class='close'>" + addGlyphIcon('icon-remove') + "</a>" +
+      "<a href='#' class='image-viewer-close'>" + addGlyphIcon('icon-remove') + "</a>" +
           "<table>" +
           "  <thead>" +
           "    <tr>" +
@@ -167,16 +167,16 @@
       "</div>";
 
       $('body').prepend(modal_container);
-      $('#key-bindings').append(key_binding_div);
-      $('#key-bindings').append(mask_div);
+      $('#image-viewer-key-bindings').append(key_binding_div);
+      $('#image-viewer-key-bindings').append(mask_div);
     }
     function setupMaskListener(){
-      $('.window .close').click(function (e) {
+      $('.window .image-viewer-close').click(function (e) {
               //Cancel the link behavior
               e.preventDefault();
               settings["mainDiv"].imageViewer.hideLegend();
           });
-      $('#mask').click(function () {
+      $('#image-viewer-mask').click(function () {
           $(this).hide();
           $('.window').hide();
       });
@@ -196,7 +196,7 @@
     function createNavTable() {
       var id = '#navlinks-for-' + settings['mainDiv'].attr('id')
 
-      table = '<table id="' + id + '" class="nav_links">' +
+      table = '<table id="' + id + '" class="image-viewer-nav-links">' +
       '<tr>' +
       '<td>' + createNavLink('scrollPage(-1)', 'Previous Page', 'icon-backward') + '</td>' +
       '<td>' + createNavLink('scrollPage(1)', 'Next Page', 'icon-forward') + '</td>' +
@@ -224,7 +224,7 @@
     function createNavLink( call, name, glyph) {
       var div_id = '#' + settings["mainDiv"].attr("id");
 
-      return '<a href="#" title="' + name + '" style="display:block;text-align:center" onclick="' +
+      return '<a href="#" title="' + name + '" class="image-viewer-nav-link" onclick="' +
       '$(\'' + div_id + '\')' +
       '.imageViewer.' +  call + ';return false;">' +
       addGlyphIcon(glyph) +
@@ -274,7 +274,7 @@
     function addKeyToKeyMaster(keyString, keyScope, func){
       var keys = typeof(keyString) === 'string' ? [keyString] : keyString
       $.each(keys, function(index, k) {
-        if ($.inArray(k, settings['suppressed_keys']) === -1) {
+        if ($.inArray(k, settings['suppressedKeys']) === -1) {
           key(k, keyScope, func);
         }
       });

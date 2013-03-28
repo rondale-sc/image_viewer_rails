@@ -7,7 +7,10 @@
 }
 
 .image-viewer {
-  height: 95%;
+  height: -moz-calc(100% - 24px);    /* Firefox */
+  height: -webkit-calc(100% - 24px); /* WebKit */
+  height: -o-calc(100% - 24px);      /* Opera */
+  height: calc(100% - 24px);         /* Standard */
   width: 99%;
   overflow: auto;
   margin-right:auto;
@@ -15,10 +18,15 @@
   position:relative;
 }
 
-.nav_links {
+.image-viewer-nav-links {
   margin-left:auto;
   margin-right:auto;
   width:60%;
+}
+
+.image-viewer-nav-link {
+  display:block;
+  text-align:center;
 }
 
 .image-viewer-nav-info{
@@ -28,12 +36,17 @@
   width: 15%;
 }
 
-#mask {
+.image-viewer-close { 
+  float:right;
+}
+
+#image-viewer-mask {
+  display:none;
   position:absolute;
   z-index:9000;
   background-color:#000;
 }
-#key-bindings .window {
+#image-viewer-key-bindings .window {
   position:absolute;
   width:440px;
   height:200px;
@@ -42,7 +55,7 @@
   padding:20px;
 }
 
-#key-bindings #dialog {
+#image-viewer-key-bindings #dialog {
   background-color:#fff;
   background-repeat:no-repeat;
   background-position:right bottom;
@@ -53,10 +66,10 @@
   height:50%;
 }
 
-#key-bindings #dialog a {
+#image-viewer-key-bindings #dialog a {
   font-size:12px;
 }
-#key-bindings #dialog h5 {
+#image-viewer-key-bindings #dialog h5 {
   text-align:center;
   font-size:24px;
 }
@@ -89,3 +102,4 @@
 .icon-info-sign {background-position: -120px -96px;}
 .icon-backward {background-position: -240px -72px;}
 .icon-forward {background-position: -336px -72px;}
+.icon-remove {background-position: -312px 0;}
