@@ -3,6 +3,7 @@
     var settings = {
       'height': '550',
       'nav_links':true,
+      'zoomDirection': 'width',
       'zoomLevel': 100,
       'increment' : 50,
       'images' : null,
@@ -66,9 +67,22 @@
       settings["currentImageDiv"].scrollLeft(settings["currentImageDiv"].scrollLeft() + left);
     };
 
-    $.fn.imageViewer.zoom = function(increment){
-      if(increment < 0 && settings["zoomLevel"] <= settings["increment"]) increment = 0;
-      zoomAbsolute(settings["zoomLevel"] + increment);
+    $.fn.imageViewer.zoom = function(increment,zoomDirection){
+      var newZoomLevel = settings['zoomLevel']
+
+      if (typeof increment === 'string' && increment.match(/%$/))
+        newZoomLevel  = parseInt(increment)
+      else
+        newZoomLevel  += increment
+
+      //prevent zooming out past reasonable level
+      if (newZoomLevel < settings['increment'])
+        newZoomLevel = settings['increment']
+
+      if (zoomDirection)
+        settings['zoomDirection'] = zoomDirection
+
+      zoomAbsolute(newZoomLevel);
     };
 
     $.fn.imageViewer.rotate_all = function(increment){
@@ -124,7 +138,7 @@
       var mask_div = "<div id='mask' style='display:none;'></div>";
 
       var key_binding_div = "<div class='window' id='dialog'>" +
-      "<a href='#' style='float:right;' class='close'>(X) Close</a>" +
+      "<a href='#' style='float:right;' class='close'>" + addGlyphIcon('icon-remove') + "</a>" +
           "<table>" +
           "  <thead>" +
           "    <tr>" +
@@ -137,6 +151,8 @@
           "    <tr><td>'i'</td><td>Zoom In</td></tr>" +
           "    <tr><td>'k', 'o'</td><td>Zoom Out</td></tr>" +
           "    <tr><td>'l', 'n'</td><td>Next</td></tr>" +
+          "    <tr><td>'ctrl+l', 'h'</td><td>Fit Height</td></tr>" +
+          "    <tr><td>'w'</td><td>Fit Width</td></tr>" +
           "    <tr><td>'j', 'p'</td><td>Previous</td></tr>" +
           "    <tr><td>'e', 'up arrow'</td><td>Scroll Up</td></tr>" +
           "    <tr><td>'d', 'down arrow'</td><td>Scroll Down</td></tr>" +
@@ -170,7 +186,6 @@
       settings["zoomLevel"]       = 100;
       settings["images"]          = null;
       settings["mainDiv"]         = null;
-      settings["imageOverlay"]    = null;
       settings["imageViewerImg"]  = null;
       settings["imageIndex"]      = null;
       settings["currentImageDiv"] = null;
@@ -209,10 +224,10 @@
     function createNavLink( call, name, glyph) {
       var div_id = '#' + settings["mainDiv"].attr("id");
 
-      return '<a href="#" onclick="' +
+      return '<a href="#" title="' + name + '" style="display:block;text-align:center" onclick="' +
       '$(\'' + div_id + '\')' +
       '.imageViewer.' +  call + ';return false;">' +
-      name +
+      addGlyphIcon(glyph) +
       '</a>';
     }
 
@@ -220,8 +235,6 @@
       settings["mainDiv"].empty();
       settings["mainDiv"].addClass('image-viewer-container');
       settings["mainDiv"].css("width", settings["width"]);
-      settings["mainDiv"].append('<div id="' + settings["mainDivId"] + '-image-overlay" class="image-overlay"></div>');
-      settings["imageOverlay"] = $('#' + settings["mainDivId"] + '-image-overlay');
     }
 
     function  setupImages(images){
@@ -238,7 +251,7 @@
         '<img id="' + settings["mainDiv"].attr("id") + '-full-image-' + index + '" ' +
         'src="' + image + '" ' +
         'alt="Full Image" ' +
-        'style="width:' + settings["zoomLevel"] + '%;max-width:none;" ' +
+        'style="' + settings["zoomDirection"] + ':' + settings["zoomLevel"] + '%;max-width:none;" ' +
         'angle="0"/>' +
         '</div>');
 
@@ -300,6 +313,10 @@
       addKeyToKeyMaster(['r','shift+r'], 'imageviewer', function(){ self.rotate(90); return false; });
       // rotate all
       addKeyToKeyMaster(['t','shift+t'], 'imageviewer', function(){ self.rotate_all(90); return false; });
+      // zoom to fit width
+      addKeyToKeyMaster('w', 'imageviewer', function(){ self.zoom('100%','width'); return false; });
+      // zoom to fit height
+      addKeyToKeyMaster(['h','ctrl+l','ctrl+shift+l'], 'imageviewer', function(){ self.zoom('100%','height'); return false; });
     }
 
     function setupHeight(){
@@ -338,7 +355,10 @@
       settings["zoomLevel"] = zoomLevel;
       object_to_zoom = $('#' + settings["mainDiv"].attr("id") + '-full-image-' + settings["imageIndex"]);
 
-      object_to_zoom.css('width', settings["zoomLevel"] + '%');
+      object_to_zoom.css('width', '')
+      object_to_zoom.css('height','')
+
+      object_to_zoom.css(settings['zoomDirection'], settings["zoomLevel"] + '%');
       self.scroll(0,0);
     }
 
@@ -361,20 +381,18 @@
       var s = (settings["imageIndex"] + 1) + ' of ' + settings["images"].length;
 
       if(commandMode === undefined)
-        commandMode = settings["imageOverlay"].html().search(/CM/) !== -1;
+        commandMode = overlay.html().search(/CM/) !== -1;
 
       if(commandMode === true)
         s += ' CM';
 
-      settings["imageOverlay"].html(s);
+      overlay.html(s);
     }
 
     function rotate(increment, imageIndex){
       if (imageIndex === undefined) imageIndex = settings["imageIndex"];
       var image = $('#' + settings["mainDiv"].attr("id") + '-full-image-' + imageIndex);
       var current_angle = parseInt(image.attr('angle'),10);
-
-      zoomAbsolute(100);
 
       image.rotate(current_angle + increment);
       current_angle = parseInt(image.getRotateAngle(),10) % 360;

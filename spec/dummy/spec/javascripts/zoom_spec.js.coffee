@@ -1,4 +1,5 @@
 describe "Zoom in/out", -> 
+  images = ['/assets/test_image_1.jpeg']
   viewer = $('#ImageViewer').imageViewer
 
   percentageIncrease = (initial_value, new_value, scale_factor)->
@@ -8,7 +9,18 @@ describe "Zoom in/out", ->
 
   beforeEach -> 
     loadFixtures 'image_viewer_index'
-    $('#ImageViewer').imageViewer(["/assets/test_image_1.jpeg"]);
+    $('#ImageViewer').imageViewer(images)
+
+  it 'defaults to zooming by width', ->
+    expect(viewer.settings('zoomDirection')).toBe('width')
+
+  it 'uses zoomDirection and zoomLevel to set image element style attributes', ->
+    settings = {'zoomDirection': 'blah', 'zoomLevel': 73}
+    $('#ImageViewer').imageViewer(images, settings)
+    style = $('img').attr('style')
+    expect(viewer.settings('zoomDirection')).toBe(settings['zoomDirection'])
+    expect(viewer.settings('zoomLevel')).toBe(settings['zoomLevel'])
+    expect(style).toContain(settings['zoomDirection'] + ':' + settings['zoomLevel'])
 
   it "zooms in to the current image given a positive integer", ->
     zoom_increment              = 50
@@ -31,11 +43,20 @@ describe "Zoom in/out", ->
     expect(viewer.settings("zoomLevel")).toEqual(initial_zoom_level + zoom_increment)
 
   it "prevents zooming past reasonable levels", -> 
-    zoom_increment     = 10
     initial_zoom_level = viewer.settings("zoomLevel")
     viewer.zoom(-1 * initial_zoom_level) # set zoomLevel to 0 
-    viewer.zoom(-1 * zoom_increment)
+    expect(viewer.settings("zoomLevel")).toEqual(viewer.settings('increment'))
 
-    # Don't continue to reduce size after you reach 0
-    expect(viewer.settings("zoomLevel")).toEqual(0) 
+  it "accepts zoom direction as second parameter", ->
+    viewer.zoom(0,'height')
+    console.log $('img').attr('style')
+    expect($('img').attr('style')).toContain('height: 100%')
+
+  it "allows zooming to specific percentage", ->
+    viewer.zoom('150%')
+    expect($('img').attr('style')).toContain('width: 150%')
+
+  it "allows zooming to specific percentage by height", ->
+    viewer.zoom('172%','height')
+    expect($('img').attr('style')).toContain('height: 172%')
 
