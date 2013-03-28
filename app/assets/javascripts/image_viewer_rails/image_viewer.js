@@ -200,7 +200,7 @@
     function createNavTable() {
       var id = '#navlinks-for-' + settings['mainDivId']
 
-      table = '<table id="' + id + '" class="table center nav_links">' +
+      table = '<table id="' + id + '" class="nav_links">' +
       '<tr>' +
       '<td>' + createNavLink('scrollPage(-1)', 'Previous Page', 'icon-backward') + '</td>' +
       '<td>' + createNavLink('scrollPage(1)', 'Next Page', 'icon-forward') + '</td>' +
