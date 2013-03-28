@@ -38,7 +38,7 @@ Clicking the info link in the nav section will display a modal legend with all o
 Since this mostly just serves up commonly used js files for internal use all you need to do is add the following lines to your `Gemfile`
 
 ```ruby
-gem "image_viewer_rails", "~> 0.0.1"
+gem "image_viewer_rails", "~> 0.0.2"
 ```
 
 In your `app/assets/javascripts/application.js` (manifest file) add the following:
