@@ -1,4 +1,8 @@
+/** This is is a jQuery plugin and as such uses an Immediately Invoked Function Expression (IIFE) */
 (function($) {
+  /** Main imageViewer namespace
+   * @param {object} method - Usually init options such as the initial array of images
+   */
   $.fn.imageViewer = function(method) {
     var settings = {
       'navLinks':true,
@@ -18,6 +22,9 @@
     };
     var self = $.fn.imageViewer;
 
+    /** Method by which the next or previous image is retrieved and set to the current image (from the initial sequence of images)
+     * @param {integer} increment - Usually 1 or -1 for next and previous page, but can be any integer.
+     */
     $.fn.imageViewer.scrollPage = function(increment){
       if(settings["imageIndex"] === 0 && increment === -1) {
         settings["imageIndex"] = (settings["images"].length - 1);
@@ -29,16 +36,23 @@
       showPage(settings["imageIndex"]);
     };
 
+    /** Essentially just an public accessor for getting information about the internal settings variable.
+        @param {string} str - String of setting you'd like to view.
+     */
     $.fn.imageViewer.settings = function(str) {
       if (settings[str] !== undefined) {
         return settings[str];
       }
     };
 
+    /** Public method to remove keybindings.  Especially useful when displaying multiple image_viewers on a single page.
+     */
     $.fn.imageViewer.teardownKeyBindings = function() { teardownKeyBindings(); };
 
+    /** Public method to setup keybindings via the setupKeyBindings() method */
     $.fn.imageViewer.setupKeyBindings = function() { setupKeyBindings(); };
 
+    /** Public method to display the legend modal dialog box as an overlay. */
     $.fn.imageViewer.displayLegend =  function(disableTransition) {
       var id = $('#dialog');
       var maskHeight = $(document).height();
@@ -57,15 +71,25 @@
       $(id).fadeIn(2000);
     };
 
+    /** Public method to hide the modal dialog box */
     $.fn.imageViewer.hideLegend =  function() {
       $('#image-viewer-mask, #dialog').hide();
     };
 
+    /** Public method for manipulating the top and left dimensions of an image.  This is used to move the image up/left/right/down.  See tests for examples
+     * @param {integer} left - Desired left position of current image.
+     * @param {integer} top - Desired top position of current image.
+     */
     $.fn.imageViewer.scroll =  function(left, top){
       settings["currentImageDiv"].scrollTop(settings["currentImageDiv"].scrollTop() + top);
       settings["currentImageDiv"].scrollLeft(settings["currentImageDiv"].scrollLeft() + left);
     };
 
+    /** Public method for inreasing the width dimension of the current image.
+     * @param {integer} increment - Increment you'd like to increase by.  If specified as an integer will increase current increment
+     * @param {string} increment - if Increment is given as a string suffixed by the percent sign (%) will set that percentage absolutely.
+     * @param {string} zoomDirection - Defaults to 'width' if specified as 'height' will change the height percentage instead of width.
+     */
     $.fn.imageViewer.zoom = function(increment,zoomDirection){
       var newZoomLevel = settings['zoomLevel']
 
@@ -84,16 +108,24 @@
       zoomAbsolute(newZoomLevel);
     };
 
+    /** Rotates all images currently in the images var
+     * @param {integer} increment - Angle to be rotated by.  Given the integer 90 will rotate current image by 90 degrees to the right.
+     */
     $.fn.imageViewer.rotate_all = function(increment){
       $.each(settings["images"], function(index, image) {
         rotate(increment, index);
       });
     };
 
+    /** Rotates current image by increment to the right
+     * @param {integer} increment - Angle to be rotated by.  Given the integer 90 will rotate current image by 90 degrees to the right.
+     */
     $.fn.imageViewer.rotate = function(increment){
       rotate(increment);
     };
 
+    /** Will load all images currently in the images variable and loads them in a new tab.  Once in a new tab will open the print dialog box for printing.  Images will each be printed separated by a page break.  Closes new tab when print dialog is dismissed (by printing or by cancelling)
+     */
     $.fn.imageViewer.print = function() {
       var myWindow = window.open("", '_newtab');
       var image_tags = "";
@@ -116,6 +148,10 @@
     };
 
 
+    /** initializes the image viewer's internal state.  Any settings passed to options are merged into the default settings object.  Calls a number of functions to initialize the viewer including setting up containers, listeners, et al
+     * @param {array} image_path_array - Array of image paths.  These paths will be inserted as the src attribute on img tags later, so ensure that these are valid paths.
+     * @param {object} options - options that will be merged into the default settings object.
+     */
     function init(image_path_array, options){
       if ( options )
         $.extend( settings, options );
@@ -132,6 +168,7 @@
       handleWindowResize();
     }
 
+    /** Builds and prepends the the legend dialog box to the #image-viewer-key-bindings. */
     function setupLegend() {
       var modal_container = "<div id='image-viewer-key-bindings'></div>";
       var mask_div = "<div id='image-viewer-mask'></div>";
@@ -180,6 +217,9 @@
           $('.window').hide();
       });
     }
+
+    /** resets settings object and reinitializes the image_viewer.
+     */
     function reload(){
       image_array                 = settings["images"];
       settings["zoomLevel"]       = 100;
@@ -192,6 +232,8 @@
       init(image_array);
     }
 
+    /** Builds the navLinks table.  Each call to createNavLink creates an a tag with a contained icon tag.  These link tags contain the onclick events
+     */
     function createNavTable() {
       var id = '#navlinks-for-' + settings['mainDiv'].attr('id')
 
@@ -216,10 +258,18 @@
       settings["mainDiv"].prepend(table);
     }
 
+    /**  builds an i tag with a class of glyph
+     * @param {string} glyph - name of glyph class from css.  View image_viewer_rails.css.scss to see options.
+     */
     function addGlyphIcon(glyph) {
       return '<i class="' + glyph + '"></i>'
     }
 
+    /** builds link tag with title of name, and the onclick function of call
+     * @param {string} call - the imageViewer call that will be assigned to the onclick even of this link.
+     * @param {string} name - inserted directly into title text of link.
+     * @param {string} glyph - name of css class glyphicon (see addGlyphIcon)
+     */
     function createNavLink( call, name, glyph) {
       var div_id = '#' + settings["mainDiv"].attr("id");
 
@@ -230,12 +280,16 @@
       '</a>';
     }
 
+    /** Clears mainDiv (which is _this_ upon initialization).  Assigns width to mainDiv from settings var */
     function setupContainers(){
       settings["mainDiv"].empty();
       settings["mainDiv"].addClass('image-viewer-container');
       settings["mainDiv"].css("width", settings["width"]);
     }
 
+    /** Creates the img tags on the page and assigns them unique ids
+     * @param {array} images - This function is called from init() and accepts the array of images passed there.
+     */
     function  setupImages(images){
       settings["images"] = images;
       var style = "";
@@ -262,14 +316,21 @@
       updateOverlay();
     }
 
+    /** Redirects window to root path */
     function delayedRedirect(){
       window.location = "/";
     }
 
+    /** Removes keybindings from keymaster. */
     function teardownKeyBindings(){
       key.deleteScope('imageviewer');
     }
 
+    /** Convenience method for adding keybindings to imageViewer through keymaster.js
+     * param {string} keyString - String of the key to be bound to func.  Listing of keys can be found: https://github.com/madrobby/keymaster
+     * param {string} keyScope - Scope for current keybinds.  This scope can be deleted (and is with teardownKeyBindings().
+     * param {func} func - function to be bound ot the keyString.
+     */
     function addKeyToKeyMaster(keyString, keyScope, func){
       var keys = typeof(keyString) === 'string' ? [keyString] : keyString
       $.each(keys, function(index, k) {
@@ -279,6 +340,8 @@
       });
     }
 
+    /** Assigns the various key combinations to their actual function calls.
+     */
     function  setupKeyBindings(){
       teardownKeyBindings();
 
@@ -318,6 +381,7 @@
       addKeyToKeyMaster(['h','ctrl+l','ctrl+shift+l'], 'imageviewer', function(){ self.zoom('100%','height'); return false; });
     }
 
+    /** Calculates the height of the view port and sets the main div to fit. */
     function setupHeight(){
       var window_height = $(window).height();
       var footer        = $('#footer');
@@ -345,10 +409,14 @@
       $('.image-viewer').css('height', (settings["mainDiv"].height() - navlinks.height()) + 'px');
     }
 
+    /** call setupHeight() on resize */
     function handleWindowResize(){
       $(window).bind('resize', setupHeight);
     }
 
+    /** Zooms image's 'height' or 'width' to a given percentage.  Height or Width is decided by setting the zoomDirection setting var.
+     * param {integer} zoomLevel - Percentage you'd like the image to be sized to.
+     */
     function zoomAbsolute(zoomLevel){
       previous_zoomLevel = settings["zoomLevel"];
       settings["zoomLevel"] = zoomLevel;
@@ -371,6 +439,9 @@
       updateOverlay();
     }
 
+    /** Updates the nav-info to display both command mode toggle and "page of pages"
+     * @param {bool} commandMode - Sets comand mode to true or false.
+     */
     function updateOverlay(commandMode){
       overlay = $('#' + settings["mainDiv"].attr("id") + '-nav-info');
 
@@ -388,6 +459,10 @@
       overlay.html(s);
     }
 
+    /** Calls jQuery.rotate.js's rotate function.
+     * @param {integer} increment - number of degrees to rotate image.
+     * @param {integer} imageIndex - Set which image to rotate.  Defaults to current image based of settings["imageIndex"]
+     */
     function rotate(increment, imageIndex){
       if (imageIndex === undefined) imageIndex = settings["imageIndex"];
       var image = $('#' + settings["mainDiv"].attr("id") + '-full-image-' + imageIndex);
@@ -408,6 +483,7 @@
       image.attr('angle',current_angle);
     }
 
+    /** if argument passed to IIFE aren't a method defined on imageViewer then pass the arguments to initialize. */
     if ( typeof method === 'object' || ! method )
       return init.apply(this, arguments);
     else
