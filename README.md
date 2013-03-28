@@ -2,6 +2,8 @@
 
 This project rocks and uses MIT-LICENSE.
 
+#[View Live Demo](http://jonathan-jackson.net/image_viewer_rails/)
+
 A rails engine to serve imageviewer js files easily and ubiquitiously
 
 ImageViewerRails is simply a wrapper for a javascript library that will load an array of images to your screen and offer controls for manipulating those images.  It was designed to be used with forms on pages for quick and efficient data entry.  It provides a nav bar that allows for rotation, zooming, and more.   Most of the allowable manipulations have corrolary key listeners which we'll cover a little more below. 
