@@ -399,8 +399,6 @@
       var image = $('#' + settings["mainDivId"] + '-full-image-' + imageIndex);
       var current_angle = parseInt(image.attr('angle'),10);
 
-      zoomAbsolute(100);
-
       image.rotate(current_angle + increment);
       current_angle = parseInt(image.getRotateAngle(),10) % 360;
 
