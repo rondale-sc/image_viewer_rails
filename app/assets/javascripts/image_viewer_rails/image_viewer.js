@@ -6,9 +6,8 @@
       'zoomLevel': 100,
       'increment' : 50,
       'images' : null,
-      'mainDivId' : this,
-      'mainDiv' : null,
       'imageOverlay': null,
+      'mainDiv' : this,
       'imageViewerImg': null,
       'imageIndex': null,
       'currentImageDiv': null,
@@ -105,14 +104,10 @@
 
 
     function init(image_path_array, options){
-      main_div_id = (settings["mainDivId"]).attr("id");
       if ( options )
         $.extend( settings, options );
 
       this.data("settings", settings);
-
-      if (main_div_id !== undefined)
-        settings["mainDivId"] = main_div_id;
 
       setupContainers();
       setupHeight();
@@ -163,7 +158,7 @@
       $('.window .close').click(function (e) {
               //Cancel the link behavior
               e.preventDefault();
-              $('#' + settings["mainDivId"]).imageViewer.hideLegend();
+              settings["mainDiv"].imageViewer.hideLegend();
           });
       $('#mask').click(function () {
           $(this).hide();
@@ -184,27 +179,35 @@
     }
 
     function createNavTable() {
-      table = '<table id="navlinks-for-' + settings['mainDivId'] + '" class="table" style="margin:0px;">' +
+      var id = '#navlinks-for-' + settings['mainDiv'].attr('id')
+
+      table = '<table id="' + id + '" class="nav_links">' +
       '<tr>' +
-      '<td>' + createNavLink('scrollPage(-1)', 'previous') + '</td>' +
-      '<td>' + createNavLink('scrollPage(1)', 'next') + '</td>' +
-      '<td>' + createNavLink('scroll(-1 * ' + settings["increment"] + ",0)", 'left') + '</td>' +
-      '<td>' + createNavLink('scroll(' + settings["increment"] + ",0)", 'right') + '</td>' +
-      '<td>' + createNavLink('scroll(0, -1 * ' + settings["increment"] + ")", 'up') + '</td>' +
-      '<td>' + createNavLink('scroll(0,' + settings["increment"] + ")", 'down') + '</td>' +
-      '<td>' + createNavLink('zoom(' + settings["increment"] + ")", 'zoom in') + '</td>' +
-      '<td>' + createNavLink('zoom(-1 * ' + settings["increment"] + ")", 'zoom out') + '</td>' +
-      '<td>' + createNavLink('rotate(90)', 'rotate') + '</td>' +
-      '<td>' + createNavLink('rotate_all(90)', 'rotate all') + '</td>' +
-      '<td>' + createNavLink('print()', 'print') + '</td>' +
-      '<td>' + createNavLink('displayLegend()', 'legend') + '</td>' +
+      '<td>' + createNavLink('scrollPage(-1)', 'Previous Page', 'icon-backward') + '</td>' +
+      '<td>' + createNavLink('scrollPage(1)', 'Next Page', 'icon-forward') + '</td>' +
+      '<td>' + createNavLink('scroll(-1 * ' + settings["increment"] + ",0)", 'Left', 'icon-arrow-left') + '</td>' +
+      '<td>' + createNavLink('scroll(' + settings["increment"] + ",0)", 'Right', 'icon-arrow-right') + '</td>' +
+      '<td>' + createNavLink('scroll(0, -1 * ' + settings["increment"] + ")", 'Up', 'icon-arrow-up') + '</td>' +
+      '<td>' + createNavLink('scroll(0,' + settings["increment"] + ")", 'Down', 'icon-arrow-down') + '</td>' +
+      '<td id="' +settings["mainDiv"].attr('id') + '-nav-info' + '" class="image-viewer-nav-info"></td>' +
+      '<td>' + createNavLink('zoom(' + settings["increment"] + ")", 'Zoom In', 'icon-plus') + '</td>' +
+      '<td>' + createNavLink('zoom(-1 * ' + settings["increment"] + ")", 'Zoom Out', 'icon-minus') + '</td>' +
+      '<td>' + createNavLink('rotate(90)', 'Rotate Page', 'icon-repeat') + '</td>' +
+      '<td>' + createNavLink('rotate_all(90)', 'Rotate All Pages', 'icon-refresh') + '</td>' +
+      '<td>' + createNavLink('print()', 'Print', 'icon-print') + '</td>' +
+      '<td>' + createNavLink('displayLegend()', 'Display Legend', 'icon-info-sign') + '</td>' +
       '</tr>' +
       '</table>';
 
       settings["mainDiv"].prepend(table);
     }
-    function createNavLink( call, name ) {
-      var div_id = '#' + settings["mainDivId"];
+
+    function addGlyphIcon(glyph) {
+      return '<i class="' + glyph + '"></i>'
+    }
+
+    function createNavLink( call, name, glyph) {
+      var div_id = '#' + settings["mainDiv"].attr("id");
 
       return '<a href="#" onclick="' +
       '$(\'' + div_id + '\')' +
@@ -214,7 +217,6 @@
     }
 
     function setupContainers(){
-      settings["mainDiv"] = $('#' + settings["mainDivId"]);
       settings["mainDiv"].empty();
       settings["mainDiv"].addClass('image-viewer-container');
       settings["mainDiv"].css("width", settings["width"]);
@@ -226,14 +228,14 @@
       settings["images"] = images;
       var style = "";
 
-      $.each(images, function(index, image){
+      $.each(images, function(index, image)  {
         if(index !== 0)
           style += "display: none;";
 
-        settings["mainDiv"].append('<div id="' + settings["mainDivId"] + '-image-viewer-' + index + '" ' +
+        settings["mainDiv"].append('<div id="' + settings["mainDiv"].attr("id") + '-image-viewer-' + index + '" ' +
         'class="image-viewer" ' +
         'style="' + style + '">' +
-        '<img id="' + settings["mainDivId"] + '-full-image-' + index + '" ' +
+        '<img id="' + settings["mainDiv"].attr("id") + '-full-image-' + index + '" ' +
         'src="' + image + '" ' +
         'alt="Full Image" ' +
         'style="width:' + settings["zoomLevel"] + '%;max-width:none;" ' +
@@ -242,8 +244,8 @@
 
       });
 
-      settings["currentImageDiv"] = $('#' + settings["mainDivId"] + '-image-viewer-0');
-      settings["imageViewerImg"] = $('#' + settings["mainDivId"] + '-full-image-0');
+      settings["currentImageDiv"] = $('#' + settings["mainDiv"].attr("id") + '-image-viewer-0');
+      settings["imageViewerImg"] = $('#' + settings["mainDiv"].attr("id") + '-full-image-0');
       settings["imageIndex"] = 0;
       updateOverlay();
     }
@@ -303,7 +305,7 @@
     function setupHeight(){
       var window_height = $(window).height();
       var footer        = $('#footer');
-      var navlinks      = $('#navlinks-for-' + settings['mainDivId']);
+      var navlinks      = $('#navlinks-for-' + settings['mainDiv'].attr("id"));
 
       var footer_height, menu_offset;
 
@@ -334,7 +336,7 @@
     function zoomAbsolute(zoomLevel){
       previous_zoomLevel = settings["zoomLevel"];
       settings["zoomLevel"] = zoomLevel;
-      object_to_zoom = $('#' + settings["mainDivId"] + '-full-image-' + settings["imageIndex"]);
+      object_to_zoom = $('#' + settings["mainDiv"].attr("id") + '-full-image-' + settings["imageIndex"]);
 
       object_to_zoom.css('width', settings["zoomLevel"] + '%');
       self.scroll(0,0);
@@ -344,14 +346,19 @@
       settings["imageIndex"] = page;
 
       settings["currentImageDiv"].hide();
-      settings["currentImageDiv"] = $('#' + settings["mainDivId"] + '-image-viewer-' + page);
-      settings["imageViewerImg"] = $('#' + settings["mainDivId"] + '-full-image-' + page);
+      settings["currentImageDiv"] = $('#' + settings["mainDiv"].attr("id") + '-image-viewer-' + page);
+      settings["imageViewerImg"] = $('#' + settings["mainDiv"].attr("id") + '-full-image-' + page);
       settings["currentImageDiv"].show();
       updateOverlay();
     }
 
     function updateOverlay(commandMode){
-      var s = (settings["imageIndex"] + 1) + ' / ' + settings["images"].length;
+      overlay = $('#' + settings["mainDiv"].attr("id") + '-nav-info');
+
+      if (settings['images'].length === 0)
+        return;
+
+      var s = (settings["imageIndex"] + 1) + ' of ' + settings["images"].length;
 
       if(commandMode === undefined)
         commandMode = settings["imageOverlay"].html().search(/CM/) !== -1;
@@ -364,7 +371,7 @@
 
     function rotate(increment, imageIndex){
       if (imageIndex === undefined) imageIndex = settings["imageIndex"];
-      var image = $('#' + settings["mainDivId"] + '-full-image-' + imageIndex);
+      var image = $('#' + settings["mainDiv"].attr("id") + '-full-image-' + imageIndex);
       var current_angle = parseInt(image.attr('angle'),10);
 
       zoomAbsolute(100);
