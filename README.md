@@ -30,7 +30,8 @@ $('#ImageViewer').imageViewer(['/images.png'], settings)
 Once you have the image viewer initialized you can start using it.  The functions in the nav links area are mapped to the following keys:
 
 ![keyboard_screenshot](https://raw.github.com/rondale-sc/image_viewer_rails/master/public/keyboard.png)
- 
+
+Clicking the info link in the nav section will display a modal legend with all of the hotkeys listed.
 
 ## Installation
 
@@ -52,7 +53,7 @@ In your `app/assets/stylesheets/application.css.scss` (manifest file) add the fo
 //= require image_viewer_rails
 ```
 
-Doing so will tell rails to laod the following files
+Doing so will tell rails to load the following files
 
 - image_viewer.js
 - [jquery.rotate.js](https://code.google.com/p/jquery-rotate/)
