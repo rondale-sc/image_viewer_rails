@@ -4,6 +4,34 @@ This project rocks and uses MIT-LICENSE.
 
 A rails engine to serve imageviewer js files easily and ubiquitiously
 
+ImageViewerRails is simply a wrapper for a javascript library that will load an array of images to your screen and offer controls for manipulating those images.  It was designed to be used with forms on pages for quick and efficient data entry.  It provides a nav bar that allows for rotation, zooming, and more.   Most of the allowable manipulations have corrolary key listeners which we'll cover a little more below. 
+
+Once you've run through the installation (see below) you can run something like the following:
+
+```html
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#ImageViewer').imageViewer(["/assets/test_image_1.jpeg", "/assets/test_image_2.jpeg"]);
+  });
+</script>
+```
+
+Which will render something like:
+
+![example_screenshot_1](https://raw.github.com/rondale-sc/image_viewer_rails/master/public/example_screenshot_1.png)
+
+The current image will by default be loaded to fit the width of the image container (which is not shown in the screenshot above).  If you'd like to over-ride that default you can pass the option `zoomDirection` like so:
+
+```javascript
+settings = {zoomDirection: 'height'}
+$('#ImageViewer').imageViewer(['/images.png'], settings)
+```
+
+Once you have the image viewer initialized you can start using it.  The functions in the nav links area are mapped to the following keys:
+
+![keyboard_screenshot](https://raw.github.com/rondale-sc/image_viewer_rails/master/public/keyboard.png)
+ 
+
 ## Installation
 
 Since this mostly just serves up commonly used js files for internal use all you need to do is add the following lines to your `Gemfile`
@@ -46,6 +74,8 @@ Thanks for your interest in contributing to image_viewer_rails.  ImageViewerRail
   - Best way on a mac is `brew install phantom`
 - `cd spec/dummy`
 - guard
+
+Tests are written in CoffeeScript
 
 ### Tips and Tricks
 
