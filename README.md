@@ -39,9 +39,9 @@ Clicking the info link in the nav section will display a modal legend with all o
 
 Image Viewer Rails supports what we call 'command mode'.  The image viewer is designed to be used closely with forms (for example, demographic entry) because of this intent we needed a way to minimize users' need to use the mouse.  So we added keyboard shortcuts for all of the actions.  The happy path allows our users to stay on the home row.   When a user is entering data in the form and needs to see the next page (for example) we didn't want them to have to tab out of the input.  Enter [Keymaster](https://github.com/madrobby/keymaster) by Thomas Fuchs.  Keymaster allowed us to set a mode.  We always trap `\`, which toggles keymaster trapping in input, select, and textarea  fields.  
 
-1 Press `\` once to enter command mode
-2 Image Viewer keybinds are obliged even while in field inputs until...
-3 Press `\` again to leave command mode 
+1. Press `\` once to enter command mode
+2. Image Viewer keybinds are obliged even while in field inputs until...
+3. Press `\` again to leave command mode 
 
 To alert a user that they are in command mode we have an overlay in the center of the nav links bar that displays the letters `CM` when in command mode.  This alert looks like:
 
