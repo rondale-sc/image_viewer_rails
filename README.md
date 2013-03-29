@@ -2,6 +2,8 @@
 
 This project rocks and uses MIT-LICENSE.
 
+#[View Live Demo](http://jonathan-jackson.net/image_viewer_rails/)
+
 A rails engine to serve imageviewer js files easily and ubiquitiously
 
 ImageViewerRails is simply a wrapper for a javascript library that will load an array of images to your screen and offer controls for manipulating those images.  It was designed to be used with forms on pages for quick and efficient data entry.  It provides a nav bar that allows for rotation, zooming, and more.   Most of the allowable manipulations have corrolary key listeners which we'll cover a little more below. 
@@ -30,14 +32,15 @@ $('#ImageViewer').imageViewer(['/images.png'], settings)
 Once you have the image viewer initialized you can start using it.  The functions in the nav links area are mapped to the following keys:
 
 ![keyboard_screenshot](https://raw.github.com/rondale-sc/image_viewer_rails/master/public/keyboard.png)
- 
+
+Clicking the info link in the nav section will display a modal legend with all of the hotkeys listed.
 
 ## Installation
 
 Since this mostly just serves up commonly used js files for internal use all you need to do is add the following lines to your `Gemfile`
 
 ```ruby
-gem "image_viewer_rails", "~> 0.0.1"
+gem "image_viewer_rails", "~> 0.0.2"
 ```
 
 In your `app/assets/javascripts/application.js` (manifest file) add the following:
@@ -52,7 +55,7 @@ In your `app/assets/stylesheets/application.css.scss` (manifest file) add the fo
 //= require image_viewer_rails
 ```
 
-Doing so will tell rails to laod the following files
+Doing so will tell rails to load the following files
 
 - image_viewer.js
 - [jquery.rotate.js](https://code.google.com/p/jquery-rotate/)
