@@ -58,6 +58,7 @@ gem "image_viewer_rails", "~> 0.1.0"
 In your `app/assets/javascripts/application.js` (manifest file) add the following:
 
 ```
+//= require jquery
 //= require image_viewer_rails
 ```
 
