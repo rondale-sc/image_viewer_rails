@@ -510,13 +510,16 @@
      */
     function rotate(increment, imageIndex){
       if (imageIndex === undefined) imageIndex = settings["imageIndex"];
-      var image = $('#' + settings["mainDiv"].attr("id") + '-full-image-' + imageIndex);
-      var current_angle = parseInt(image.attr('angle'),10);
+      var image             = $('#' + settings["mainDiv"].attr("id") + '-full-image-' + imageIndex),
+          currentAngle      = parseInt(image.attr('angle'),10),
+          initialImageIndex = settings['imageIndex'];
 
-      image.rotate(current_angle + increment);
-      current_angle = parseInt(image.getRotateAngle(),10) % 360;
 
-      if (current_angle === 90 || current_angle === 270) {
+      showPage(imageIndex);
+      image.rotate(currentAngle + increment);
+      currentAngle = parseInt(image.getRotateAngle(),10) % 360;
+
+      if (currentAngle === 90 || currentAngle === 270) {
         var offset = image.height()/2 - image.width()/2;
         image.css('margin-top', -1 * offset);
         image.css('margin-left', offset);
@@ -525,7 +528,8 @@
         image.css('margin-left', 0);
       }
 
-      image.attr('angle',current_angle);
+      image.attr('angle',currentAngle);
+      showPage(initialImageIndex);
     }
 
     /** if argument passed to IIFE aren't a method defined on imageViewer then pass the arguments to initialize. */

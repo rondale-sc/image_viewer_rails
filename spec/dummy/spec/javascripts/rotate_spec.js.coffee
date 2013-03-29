@@ -40,3 +40,12 @@ describe "Rotate Page / Rotate All Pages", ->
       viewer.rotate_all(90)
       expect(currentPage()).toBe(1)
 
+    it "shouldn't use an offset of 50px (because width was 0)", ->
+      viewer.rotate_all(90)
+
+      $('img').each (index)->
+        image       = $(this)
+        console.log image.css('margin-top')
+
+        expect(image.css('margin-top')).not.toBe("50px")
+        expect(image.css('margin-left')).not.toBe("-50px")
