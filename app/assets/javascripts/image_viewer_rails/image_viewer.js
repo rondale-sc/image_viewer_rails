@@ -266,16 +266,16 @@
      * @private
      */
     function createNavTable() {
-      var id = '#navlinks-for-' + settings['mainDiv'].attr('id')
+      var id = 'navlinks-for-' + settings['mainDiv'].attr('id')
 
       table = '<table id="' + id + '" class="image-viewer-nav-links">' +
       '<tr>' +
       '<td>' + createNavLink('scrollPage(-1)', 'Previous Page', 'icon-backward') + '</td>' +
       '<td>' + createNavLink('scrollPage(1)', 'Next Page', 'icon-forward') + '</td>' +
-      '<td>' + createNavLink('scroll(-1 * ' + settings["increment"] + ",0)", 'Left', 'icon-arrow-left') + '</td>' +
-      '<td>' + createNavLink('scroll(' + settings["increment"] + ",0)", 'Right', 'icon-arrow-right') + '</td>' +
-      '<td>' + createNavLink('scroll(0, -1 * ' + settings["increment"] + ")", 'Up', 'icon-arrow-up') + '</td>' +
-      '<td>' + createNavLink('scroll(0,' + settings["increment"] + ")", 'Down', 'icon-arrow-down') + '</td>' +
+      '<td>' + createNavLink('scroll(-1 * ' + (viewablePageWidth() * .25) + ",0)", 'Left', 'icon-arrow-left') + '</td>' +
+      '<td>' + createNavLink('scroll(' + (viewablePageWidth() * .25) + ",0)", 'Right', 'icon-arrow-right') + '</td>' +
+      '<td>' + createNavLink('scroll(0, -1 * ' + (viewablePageHeight() * .25) + ")", 'Up', 'icon-arrow-up') + '</td>' +
+      '<td>' + createNavLink('scroll(0,' + (viewablePageHeight() * .25) + ")", 'Down', 'icon-arrow-down') + '</td>' +
       '<td id="' +settings["mainDiv"].attr('id') + '-nav-info' + '" class="image-viewer-nav-info"></td>' +
       '<td>' + createNavLink('zoom(' + settings["increment"] + ")", 'Zoom In', 'icon-plus') + '</td>' +
       '<td>' + createNavLink('zoom(-1 * ' + settings["increment"] + ")", 'Zoom Out', 'icon-minus') + '</td>' +
@@ -396,17 +396,17 @@
       /** zoom in */
       addKeyToKeyMaster(['i','shift+i'], 'imageviewer', function(){ self.zoom(settings["increment"]); return false;});
       /** scroll up */
-      addKeyToKeyMaster(['e','shift+e','up'], 'imageviewer', function(){ self.scroll(0,-1 * settings["increment"]); return false;});
+      addKeyToKeyMaster(['e','shift+e','up'], 'imageviewer', function(){ self.scroll(0,-1 * (viewablePageHeight() * .25)); return false;});
       /** scroll down */
-      addKeyToKeyMaster(['d','shift+d','down'], 'imageviewer', function(){ self.scroll(0,settings["increment"]); return false;});
+      addKeyToKeyMaster(['d','shift+d','down'], 'imageviewer', function(){ self.scroll(0,viewablePageHeight() * .25); return false;});
       /** page up */
-      addKeyToKeyMaster(['a','shift+a','pageup'], 'imageviewer', function(){ self.scroll(0,-1 * (settings["increment"] * 5)); return false;});
+      addKeyToKeyMaster(['a','shift+a','pageup'], 'imageviewer', function(){ self.scroll(0,-1 * viewablePageHeight()); return false;});
       /** page down */
-      addKeyToKeyMaster([';','pagedown'], 'imageviewer', function(){ self.scroll(0,(settings["increment"] * 5)); return false;});
+      addKeyToKeyMaster([';','pagedown'], 'imageviewer', function(){ self.scroll(0,viewablePageHeight()); return false;});
       /**  scroll right */
-      addKeyToKeyMaster(['f','shift+f','right'], 'imageviewer', function(){ self.scroll(settings["increment"],0); return false;});
+      addKeyToKeyMaster(['f','shift+f','right'], 'imageviewer', function(){ self.scroll((viewablePageWidth() * .25),0); return false;});
       /** scroll left */
-      addKeyToKeyMaster(['s','shift+s','left'], 'imageviewer', function(){ self.scroll((-1 * settings["increment"]),0); return false; });
+      addKeyToKeyMaster(['s','shift+s','left'], 'imageviewer', function(){ self.scroll((-1 * viewablePageWidth() * .25),0); return false; });
       /**  previous page */
       addKeyToKeyMaster(['j','shift+j','p','shift+p'], 'imageviewer', function(){ self.scrollPage(-1); return false; });
       /** next page */
@@ -480,6 +480,14 @@
       settings["imageViewerImg"] = $('#' + settings["mainDiv"].attr("id") + '-full-image-' + page);
       settings["currentImageDiv"].show();
       updateOverlay();
+    }
+
+    function viewablePageHeight(){
+      return (settings["mainDiv"].height() - $('#navlinks-for-' + settings['mainDiv'].attr('id')).height()) * .95;
+    }
+
+    function viewablePageWidth(){
+      return settings["mainDiv"].width() * .95;
     }
 
     /** Updates the nav-info to display both command mode toggle and "page of pages"
